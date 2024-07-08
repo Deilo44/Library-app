@@ -1,9 +1,70 @@
 const myLibrary = [];
 
-function Book() {
-  // the constructor...
+function Book(title, author, pages, read) {
+  this.title=title;
+  this.author=author;
+  this.pages=pages;
+  this.read=read;
 }
 
+let newBookButton = document.querySelector("#newBookButton");
+newBookButton.addEventListener("click", function(){
+  let newBookForm = document.querySelector("#newBookForm");
+  newBookForm.style.display= "block";
+});
+
 function addBookToLibrary() {
-  // do stuff here
+
+  let title =document.querySelector("#title").value;
+  let author =document.getElementById("#author").value;
+  let pages =document.getElementById("#pages").value;
+  let read =document.getElementById("#read").value;
+
+  let newBook = newBook(title, author, pages ,read);
+  myLibrary.push(newBook);
+  render();
+}
+
+document.querySelector("#newBookForm").addEventListener("submit", function(event){
+  event.preventDefault();
+  addBookToLibrary();
+});
+
+function render(){
+  let libraryElement =document.querySelector("#library");
+  libraryElement.innerHTML="";
+  for(let i=0; i<myLibrary.length; i++){
+    let book =myLibrary[i];
+    let bookElement =document.createElement("div");
+    bookElement.innerHTML=`<p>${book.title}</p>`;
+    libraryElement.appendChild(bookElement);
+
+    bookElement.setAttribute("class","bookCard");
+    bookElement.innerHTML=`
+    <div class="cardHeader">
+    <h3 class="title">${book.title}</h3>
+    <h5 class="author">by ${book.author}</h5>
+    </div>
+    <div class="cardBody">
+    <p>${book.pages} pages </p>
+    <p class="readStatus"> ${book.read ? "Read" : "Not Read"} </p>
+    <button class="removeBookButton" onclick="removeBook(${i})"> Remove Book </button>
+    <button class="toggleReadButton" onclick="toggleRead(${i})">Toggle read </button>
+    </div>
+    `;
+  }
+}
+
+function removeBook(index){
+  myLibrary.splice(index,1);
+  render();
+} 
+
+book.prototype.toggleRead= function(){
+  this.read =!this.read;
+}
+
+function toggleRead(index){
+  myLibrary[index].toggleRead();
+  render();
 }
