@@ -1,4 +1,4 @@
-const myLibrary = [];
+let myLibrary = [];
 
 function Book(title, author, pages, read) {
   this.title=title;
@@ -16,11 +16,11 @@ newBookButton.addEventListener("click", function(){
 function addBookToLibrary() {
 
   let title =document.querySelector("#title").value;
-  let author =document.getElementById("#author").value;
-  let pages =document.getElementById("#pages").value;
-  let read =document.getElementById("#read").value;
+  let author =document.getElementById("author").value;
+  let pages =document.getElementById("pages").value;
+  let read =document.getElementById("read").checked;
 
-  let newBook = newBook(title, author, pages ,read);
+  let newBook = new Book(title, author, pages ,read);
   myLibrary.push(newBook);
   render();
 }
@@ -36,9 +36,6 @@ function render(){
   for(let i=0; i<myLibrary.length; i++){
     let book =myLibrary[i];
     let bookElement =document.createElement("div");
-    bookElement.innerHTML=`<p>${book.title}</p>`;
-    libraryElement.appendChild(bookElement);
-
     bookElement.setAttribute("class","bookCard");
     bookElement.innerHTML=`
     <div class="cardHeader">
@@ -52,6 +49,7 @@ function render(){
     <button class="toggleReadButton" onclick="toggleRead(${i})">Toggle read </button>
     </div>
     `;
+    libraryElement.appendChild(bookElement);
   }
 }
 
@@ -60,7 +58,7 @@ function removeBook(index){
   render();
 } 
 
-book.prototype.toggleRead= function(){
+Book.prototype.toggleRead= function(){
   this.read =!this.read;
 }
 
